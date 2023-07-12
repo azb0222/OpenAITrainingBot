@@ -1,0 +1,7 @@
+{
+	documents: [
+		{“title”: “xxxx”,  “body”: “xxxx”, “category”: “category”, “extra_info”=“extra_info”}
+
+	], 
+	categories: do we need this? 
+}

@@ -8,8 +8,7 @@ from typing import Any, Dict, List, Optional
 from llama_index.readers.base import BaseReader
 from llama_index.readers.schema.base import Document
 
-
-
+import json 
 
 from playwright.async_api import async_playwright
 INNER_TEXT = "node => node.innerText"

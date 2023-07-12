@@ -26,7 +26,10 @@ from uuid import uuid4
 from pydantic import BaseModel
 from typing import Dict, List, Optional
 
+import json 
 
+data = [] #fix so erases the data upon start 
+json_file_path = "data.json"
 
 async def setup(): 
   loader = webcrawler.KnowledgeBaseWebReader(
@@ -35,6 +38,12 @@ async def setup():
         body_selector='div.main-container'
     )
   documents, categories = await loader.load_data()
+  
+  #write documents to JSON file 
+  with open(json_file_path, "w") as file:
+    json.dump(documents, file)
+
+  
   index_set = await createIndicies(categories, documents)
   llm_predictor, graph = await createGraph(index_set, categories)
   setupChatBot(graph, index_set, categories, llm_predictor)

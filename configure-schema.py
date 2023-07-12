@@ -10,20 +10,60 @@ client = weaviate.Client(
     }
 )
 
-# define class 
+
 class_obj = {
-    "class": "Question",
-    #vectorizer module: transforms raw text into numerical vectors, algos need numebers
-    "vectorizer": "text2vec-huggingface",  # If set to "none" you must always provide vectors yourself. Could be any other "text2vec-*" also.
-    "moduleConfig": {
-        "text2vec-huggingface": {
-            "model": "sentence-transformers/all-MiniLM-L6-v2",  # Can be any public or private Hugging Face model.
-            "options": {
-                "waitForModel": True
+  "class": "Document", 
+       "moduleConfig": {
+               "text2vec-transformers": {
+                    "skip": False,
+                    "vectorizeClassName": False,
+                    "vectorizePropertyName": False
+                },
+                "generative-openai": {
+                    "model": "text-davinci-003"
+                }
+           },
+       "vectorIndexType": "hnsw",
+       "vectorizer": "text2vec-transformers",
+       "properties": [
+         {
+           "name": "title", 
+           "dataType": ["text"], 
+           "moduleConfig": { 
+             "text2vec-transformers": { 
+                "skip": False, 
+                "vectorizePropertyName": False, 
+                
+               }
             }
-        }
-    }
+         }, 
+         {
+           "name": "body", 
+           "dataType": ["text"], 
+           "moduleConfig": { 
+             "text2vec-transformers": { 
+                "skip": False, 
+                "vectorizePropertyName": False, 
+                
+               }
+            }
+         }, 
+         {
+           "name": "category", 
+           "dataType": ["Category"], #need to add 
+           "description": "The category this clip is associated with.",
+           "moduleConfig": { 
+             "text2vec-transformers": { 
+                "skip": False, 
+                "vectorizePropertyName": False, 
+                
+               }
+            }
+         }
+       ]
 }
+
+
 
 client.schema.create_class(class_obj)
 
